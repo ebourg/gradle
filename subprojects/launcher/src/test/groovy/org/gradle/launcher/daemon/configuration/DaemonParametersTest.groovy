@@ -35,8 +35,8 @@ class DaemonParametersTest extends Specification {
         parameters.idleTimeout == DaemonParameters.DEFAULT_IDLE_TIMEOUT
         parameters.baseDir == new File(new BuildLayoutParameters().getGradleUserHomeDir(), "daemon")
         parameters.systemProperties.isEmpty()
-        parameters.effectiveJvmArgs.containsAll(parameters.DEFAULT_JVM_ARGS)
-        parameters.effectiveJvmArgs.size() == parameters.DEFAULT_JVM_ARGS.size() + 1 + 3 // + 1 because effective JVM args contains -Dfile.encoding, +3 for locale props
+        parameters.allImmutableJvmArgs.containsAll(parameters.DEFAULT_JVM_ARGS)
+        parameters.allImmutableJvmArgs.size() == parameters.DEFAULT_JVM_ARGS.size() + 1 + 3 // + 1 because effective JVM args contains -Dfile.encoding, +3 for locale props
         parameters.idleTimeout == DaemonParameters.DEFAULT_IDLE_TIMEOUT
     }
 
@@ -45,7 +45,7 @@ class DaemonParametersTest extends Specification {
         parameters.setJvmArgs(["-Xmx17m"])
 
         then:
-        parameters.effectiveJvmArgs.each { assert !parameters.DEFAULT_JVM_ARGS.contains(it) }
+        parameters.allImmutableJvmArgs.each { assert !parameters.DEFAULT_JVM_ARGS.contains(it) }
     }
 
     def "can configure debug mode"() {
@@ -53,8 +53,8 @@ class DaemonParametersTest extends Specification {
         parameters.setDebug(parseBoolean(flag))
 
         then:
-        parameters.effectiveJvmArgs.contains("-Xdebug") == parseBoolean(flag)
-        parameters.effectiveJvmArgs.contains("-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005") == parseBoolean(flag)
+        parameters.allImmutableJvmArgs.contains("-Xdebug") == parseBoolean(flag)
+        parameters.allImmutableJvmArgs.contains("-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005") == parseBoolean(flag)
 
         where:
         flag << ["true", "false"]

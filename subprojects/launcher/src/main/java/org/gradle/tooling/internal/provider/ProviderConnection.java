@@ -92,7 +92,7 @@ public class ProviderConnection {
                 params.gradleUserhome,
                 GradleVersion.current().getVersion(),
                 params.daemonParams.getEffectiveJavaHome(),
-                params.daemonParams.getEffectiveJvmArgs(),
+                params.daemonParams.getAllImmutableJvmArgs(),
                 requestedJvmArgsList,
                 params.daemonParams.getAllJvmArgs(),
                 params.daemonParams.getEffectiveSystemProperties(),

@@ -43,8 +43,8 @@ class PropertiesToDaemonParametersConverterTest extends Specification {
         converter.convert([(JVM_ARGS_PROPERTY): '-Xmx512m -Dprop=value'], params)
 
         then:
-        params.effectiveJvmArgs.contains('-Xmx512m')
-        !params.effectiveJvmArgs.contains('-Dprop=value')
+        params.allImmutableJvmArgs.contains('-Xmx512m')
+        !params.allImmutableJvmArgs.contains('-Dprop=value')
 
         params.systemProperties == [prop: 'value']
     }
@@ -69,7 +69,7 @@ class PropertiesToDaemonParametersConverterTest extends Specification {
         ], params)
 
         then:
-        params.effectiveJvmArgs.contains("-Xmx256m")
+        params.allImmutableJvmArgs.contains("-Xmx256m")
         params.debug
         params.effectiveJavaHome == Jvm.current().javaHome
         params.daemonUsage == EXPLICITLY_ENABLED

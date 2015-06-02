@@ -86,7 +86,7 @@ public class DaemonParameters {
         this.idleTimeout = idleTimeout;
     }
 
-    public List<String> getEffectiveJvmArgs() {
+    public List<String> getAllImmutableJvmArgs() {
         return jvmOptions.getAllImmutableJvmArgs();
     }
 

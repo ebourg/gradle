@@ -75,7 +75,7 @@ public class DaemonContextBuilder implements Factory<DaemonContext> {
     public Long getPid() {
         return pid;
     }
-    
+
     public void setPid(Long pid) {
         this.pid = pid;
     }
@@ -83,7 +83,7 @@ public class DaemonContextBuilder implements Factory<DaemonContext> {
     public Integer getIdleTimeout() {
         return idleTimeout;
     }
-    
+
     public void setIdleTimeout(Integer idleTimeout) {
         this.idleTimeout = idleTimeout;
     }
@@ -106,7 +106,7 @@ public class DaemonContextBuilder implements Factory<DaemonContext> {
 
     public void useDaemonParameters(DaemonParameters daemonParameters) {
         setJavaHome(daemonParameters.getEffectiveJavaHome());
-        setDaemonOpts(daemonParameters.getEffectiveJvmArgs());
+        setDaemonOpts(daemonParameters.getAllImmutableJvmArgs());
     }
 
     /**

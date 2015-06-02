@@ -57,7 +57,7 @@ public class CurrentProcess {
         boolean javaHomeMatch = getJavaHome().equals(requiredBuildParameters.getEffectiveJavaHome());
 
         List<String> currentImmutable = new JvmOptions(new IdentityFileResolver()).getAllImmutableJvmArgs();
-        List<String> requiredImmutable = requiredBuildParameters.getEffectiveJvmArgs();
+        List<String> requiredImmutable = requiredBuildParameters.getAllImmutableJvmArgs();
         List<String> requiredImmutableMinusDefaults = removeDefaults(requiredImmutable);
         boolean noImmutableJvmArgsRequired = requiredImmutableMinusDefaults.equals(currentImmutable);
 

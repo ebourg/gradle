@@ -78,7 +78,7 @@ public class DefaultDaemonStarter implements DaemonStarter {
         List<String> daemonArgs = new ArrayList<String>();
         daemonArgs.add(daemonParameters.getEffectiveJavaExecutable().getAbsolutePath());
 
-        List<String> daemonOpts = daemonParameters.getEffectiveJvmArgs();
+        List<String> daemonOpts = daemonParameters.getAllImmutableJvmArgs();
         LOGGER.debug("Using daemon opts: {}", daemonOpts);
         daemonArgs.addAll(daemonOpts);
         daemonArgs.add("-cp");
