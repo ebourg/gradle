@@ -52,7 +52,7 @@ assert System.getProperty('some-prop') == 'some-value'
         env.java.effectiveJvmArguments.contains('-Xmx16m')
 
         and: "effective system properties contains the custom system property"
-        env.java.systemProperties['some-prop'] == 'some-value'
+        env.java.effectiveSystemProperties['some-prop'] == 'some-value'
     }
 
     @ToolingApiVersion(">=2.5")
@@ -93,7 +93,7 @@ assert System.getProperty('some-prop') == 'some-value'
         java != null
 
         and: "effective system properties contains user specified system properties"
-        java.systemProperties.foo == 'bar'
+        java.effectiveSystemProperties.foo == 'bar'
 
         and: "JVM arguments are different from effective JVM arguments"
         java.jvmArguments.size() > 0
@@ -118,7 +118,7 @@ assert System.getProperty('some-prop') == 'some-value'
         java != null
 
         and: "effective system properties are not empty"
-        !java.systemProperties.isEmpty()
+        !java.effectiveSystemProperties.isEmpty()
 
         and: "effective JVM arguments are the same as JVM arguments because MaxPermSize is managed"
         java.effectiveJvmArguments.size() == java.jvmArguments.size()

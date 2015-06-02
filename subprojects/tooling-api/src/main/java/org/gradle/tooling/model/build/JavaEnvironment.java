@@ -66,6 +66,6 @@ public interface JavaEnvironment {
      * @throws UnsupportedMethodException For Gradle versions older than 2.5, where this method is not supported.
      */
     @Incubating
-    Map<String, String> getSystemProperties() throws UnsupportedMethodException;
+    Map<String, String> getEffectiveSystemProperties() throws UnsupportedMethodException;
 
 }

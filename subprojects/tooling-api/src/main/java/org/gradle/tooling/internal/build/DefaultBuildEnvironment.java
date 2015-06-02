@@ -80,7 +80,7 @@ public class DefaultBuildEnvironment implements InternalBuildEnvironment, Serial
             }
 
             @Override
-            public Map<String, String> getSystemProperties() {
+            public Map<String, String> getEffectiveSystemProperties() {
                 return effectiveSystemProperties;
             }
 
