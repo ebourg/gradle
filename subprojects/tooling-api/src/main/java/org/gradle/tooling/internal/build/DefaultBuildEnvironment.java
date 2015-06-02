@@ -31,28 +31,22 @@ public class DefaultBuildEnvironment implements InternalBuildEnvironment, Serial
     private final String gradleVersion;
     private final File javaHome;
     private final List<String> effectiveJvmArguments;
-    private final List<String> jvmArguments;
     private final List<String> allJvmArguments;
     private final Map<String, String> effectiveSystemProperties;
-    private final Map<String, String> systemProperties;
 
     public DefaultBuildEnvironment(
-            File gradleUserHome,
-            String gradleVersion,
-            File javaHome,
-            List<String> effectiveJvmArguments,
-            List<String> jvmArguments,
-            List<String> allJvmArguments,
-            Map<String, String> effectiveSystemProperties,
-            Map<String, String> systemProperties) {
+        File gradleUserHome,
+        String gradleVersion,
+        File javaHome,
+        List<String> effectiveJvmArguments,
+        List<String> allJvmArguments,
+        Map<String, String> effectiveSystemProperties) {
         this.gradleUserHome = gradleUserHome;
         this.gradleVersion = gradleVersion;
         this.javaHome = javaHome;
         this.effectiveJvmArguments = effectiveJvmArguments;
-        this.jvmArguments = jvmArguments;
         this.allJvmArguments = allJvmArguments;
         this.effectiveSystemProperties = effectiveSystemProperties;
-        this.systemProperties = systemProperties;
     }
 
     public GradleEnvironment getGradle() {
@@ -81,11 +75,6 @@ public class DefaultBuildEnvironment implements InternalBuildEnvironment, Serial
             }
 
             @Override
-            public List<String> getRequestedJvmArguments() {
-                return jvmArguments;
-            }
-
-            @Override
             public List<String> getEffectiveJvmArguments() {
                 return allJvmArguments;
             }
@@ -95,10 +84,6 @@ public class DefaultBuildEnvironment implements InternalBuildEnvironment, Serial
                 return effectiveSystemProperties;
             }
 
-            @Override
-            public Map<String, String> getRequestedSystemProperties() {
-                return systemProperties;
-            }
         };
     }
 

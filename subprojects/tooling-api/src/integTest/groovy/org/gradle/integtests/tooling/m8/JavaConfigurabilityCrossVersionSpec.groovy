@@ -57,11 +57,7 @@ class JavaConfigurabilityCrossVersionSpec extends ToolingApiSpecification {
                     .get()
         }
 
-        then: "requested JVM arguments contains all JVM arguments provided by the user which are not system properties"
-        env.java.requestedJvmArguments as Set == ['-Xmx333m', '-Xms13m'] as Set
-
-        and: "JVM arguments contains more than the requested arguments but not the user provided system properties"
-        env.java.jvmArguments.size() > env.java.requestedJvmArguments.size()
+        then: "JVM arguments do not contain the user provided system properties"
         !env.java.jvmArguments.contains('-Dfoo=bar')
 
         and: "effective JVM arguments contains user provided system properties"

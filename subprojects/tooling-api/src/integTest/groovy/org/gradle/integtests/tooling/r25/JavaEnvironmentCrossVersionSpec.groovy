@@ -51,13 +51,7 @@ assert System.getProperty('some-prop') == 'some-value'
         then: "complete jvm args include the max memory from gradle.properties"
         env.java.effectiveJvmArguments.contains('-Xmx16m')
 
-        and: "requested jvm args are empty"
-        env.java.requestedJvmArguments == []
-
-        and: "user provided system properties are empty"
-        !env.java.requestedSystemProperties.containsKey('some-prop')
-
-        and: "complete system properties contains the custom system property"
+        and: "effective system properties contains the custom system property"
         env.java.systemProperties['some-prop'] == 'some-value'
     }
 
@@ -75,13 +69,6 @@ assert System.getProperty('some-prop') == 'some-value'
         buildEnvironment != null
         def java = buildEnvironment.java
         java != null
-
-        and: "requested system properties are empty"
-        !java.systemProperties.isEmpty()
-        java.requestedSystemProperties.isEmpty()
-
-        and: "JVM arguments are different from user JVM arguments"
-        java.requestedJvmArguments.size() < java.jvmArguments.size()
 
         and: "all JVM arguments are the same as effective JVM arguments"
         java.effectiveJvmArguments.size() == java.jvmArguments.size()
@@ -107,12 +94,8 @@ assert System.getProperty('some-prop') == 'some-value'
 
         and: "effective system properties contains user specified system properties"
         java.systemProperties.foo == 'bar'
-        java.requestedSystemProperties == [foo:'bar']
 
-        and: "user specified JVM arguments are empty"
-        java.requestedJvmArguments.empty
-
-        and: "JVM arguments are different from user JVM arguments"
+        and: "JVM arguments are different from effective JVM arguments"
         java.jvmArguments.size() > 0
         java.effectiveJvmArguments.size() == java.jvmArguments.size() + 1
     }
@@ -134,17 +117,10 @@ assert System.getProperty('some-prop') == 'some-value'
         def java = buildEnvironment.java
         java != null
 
-        and: "effective system properties are different from user system properties"
-        java.requestedSystemProperties.isEmpty()
+        and: "effective system properties are not empty"
         !java.systemProperties.isEmpty()
 
-        and: "user specified JVM arguments are not empty"
-        java.requestedJvmArguments == ['-XX:MaxPermSize=128m']
-
-        and: "JVM arguments are different from user JVM arguments"
-        java.requestedJvmArguments.size() < java.jvmArguments.size()
-
-        and: "all JVM arguments are the same as effective JVM arguments"
+        and: "effective JVM arguments are the same as JVM arguments because MaxPermSize is managed"
         java.effectiveJvmArguments.size() == java.jvmArguments.size()
     }
 

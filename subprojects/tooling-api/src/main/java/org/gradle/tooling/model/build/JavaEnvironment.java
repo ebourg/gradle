@@ -48,16 +48,6 @@ public interface JavaEnvironment {
     List<String> getJvmArguments();
 
     /**
-     * The JVM arguments the user has requested to start the Java process that handles Gradle operations (for example running tasks or acquiring model information). The returned arguments do not
-     * include system properties passed as -Dfoo=bar.
-     *
-     * @since 2.5
-     * @throws UnsupportedMethodException For Gradle versions older than 2.5, where this method is not supported.
-     */
-    @Incubating
-    List<String> getRequestedJvmArguments() throws UnsupportedMethodException;
-
-    /**
      * The effective JVM arguments used to start the Java process that handles Gradle operations (for example running tasks or acquiring model information) including system properties passed as
      * -Dfoo=bar. They may include implicitly immutable system properties like "file.encoding" and differ from {@link #getJvmArguments()} by including the system properties that
      * the user requested.
@@ -78,12 +68,4 @@ public interface JavaEnvironment {
     @Incubating
     Map<String, String> getSystemProperties() throws UnsupportedMethodException;
 
-    /**
-     * The system properties the user configured to start the Java process that handles Gradle operations (for example running tasks or acquiring model information).
-     *
-     * @since 2.5
-     * @throws UnsupportedMethodException For Gradle versions older than 2.5, where this method is not supported.
-     */
-    @Incubating
-    Map<String, String> getRequestedSystemProperties() throws UnsupportedMethodException;
 }
