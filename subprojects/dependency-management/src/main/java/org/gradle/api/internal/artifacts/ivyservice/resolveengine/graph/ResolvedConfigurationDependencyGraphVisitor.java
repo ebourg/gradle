@@ -27,7 +27,6 @@ import org.gradle.api.internal.artifacts.ivyservice.resolveengine.oldresult.Reso
 import org.gradle.api.internal.artifacts.ivyservice.resolveengine.oldresult.ResolvedConfigurationBuilder;
 import org.gradle.internal.component.model.ComponentArtifactIdentifier;
 import org.gradle.internal.component.model.ComponentArtifactMetaData;
-import org.gradle.internal.component.model.ComponentResolveMetaData;
 import org.gradle.internal.component.model.ConfigurationMetaData;
 import org.gradle.internal.id.IdGenerator;
 import org.gradle.internal.id.LongIdGenerator;
@@ -97,17 +96,15 @@ class ResolvedConfigurationDependencyGraphVisitor implements DependencyGraphVisi
         long id = idGenerator.generateId();
         ResolvedConfigurationIdentifier configurationIdentifier = childConfiguration.id;
         ConfigurationMetaData metaData = childConfiguration.getMetaData();
-        ComponentResolveMetaData component = metaData.getComponent();
 
         Set<ComponentArtifactMetaData> artifacts = dependency.getArtifacts(metaData);
         if (!artifacts.isEmpty()) {
-            return new DependencyArtifactSet(component.getId(), component.getSource(), artifacts, artifactResolver, allResolvedArtifacts, id);
+            return new DependencyArtifactSet(metaData, artifacts, artifactResolver, allResolvedArtifacts, id);
         }
 
         ArtifactSet configurationArtifactSet = artifactSetsByConfiguration.get(configurationIdentifier);
         if (configurationArtifactSet == null) {
-
-            configurationArtifactSet = new ConfigurationArtifactSet(component, configurationIdentifier, dependency.getSelector(), artifactResolver, allResolvedArtifacts, id);
+            configurationArtifactSet = new ConfigurationArtifactSet(metaData, configurationIdentifier, dependency.getSelector(), artifactResolver, allResolvedArtifacts, id);
 
             // Only share an ArtifactSet if the artifacts are not filtered by the dependency
             if (dependency.getSelector().acceptsAllArtifacts()) {

@@ -21,23 +21,19 @@ import org.gradle.api.internal.tasks.AbstractTaskDependency;
 import org.gradle.api.internal.tasks.TaskDependencyResolveContext;
 import org.gradle.api.tasks.TaskDependency;
 
-/**
- * Represents the direct build dependencies of a Configuration.
- * These do not include the build dependencies of any transitive dependencies, but does include self-resolving dependencies of this configuration.
- */
-public class DirectBuildDependencies extends AbstractTaskDependency {
+class ConfigurationDirectBuildDependencies extends AbstractTaskDependency {
     private final DependencySet dependencies;
     private final PublishArtifactSet publishArtifacts;
 
     public static TaskDependency forDependenciesOnly(Configuration configuration) {
-        return new DirectBuildDependencies(configuration.getAllDependencies(), null);
+        return new ConfigurationDirectBuildDependencies(configuration.getAllDependencies(), null);
     }
 
     public static TaskDependency forDependenciesAndArtifacts(Configuration configuration) {
-        return new DirectBuildDependencies(configuration.getAllDependencies(), configuration.getAllArtifacts());
+        return new ConfigurationDirectBuildDependencies(configuration.getAllDependencies(), configuration.getAllArtifacts());
     }
 
-    private DirectBuildDependencies(DependencySet dependencies, PublishArtifactSet artifacts) {
+    private ConfigurationDirectBuildDependencies(DependencySet dependencies, PublishArtifactSet artifacts) {
         this.dependencies = dependencies;
         this.publishArtifacts = artifacts;
     }

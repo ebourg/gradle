@@ -19,6 +19,8 @@ package org.gradle.api.internal.artifacts.ivyservice.resolveengine.oldresult;
 import com.google.common.collect.Maps;
 import org.gradle.api.artifacts.ResolvedArtifact;
 import org.gradle.api.internal.artifacts.ivyservice.resolveengine.graph.ArtifactSet;
+import org.gradle.api.internal.tasks.DefaultTaskDependency;
+import org.gradle.api.tasks.TaskDependency;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -29,6 +31,7 @@ public class DefaultResolvedArtifactResults implements ResolvedArtifactResults {
     private Map<Long, ArtifactSet> artifactSets = Maps.newHashMap();
     private Set<ResolvedArtifact> artifacts;
     private Map<Long, Set<ResolvedArtifact>> resolvedArtifactsById;
+    private DefaultTaskDependency buildDependencies = new DefaultTaskDependency();
 
     @Override
     public Set<ResolvedArtifact> getArtifacts() {
@@ -44,8 +47,15 @@ public class DefaultResolvedArtifactResults implements ResolvedArtifactResults {
         return a;
     }
 
+    @Override
+    public TaskDependency getBuildDependencies() {
+        return buildDependencies;
+    }
+
     public void addArtifactSet(long id, ArtifactSet artifactSet) {
         artifactSets.put(id, artifactSet);
+
+        buildDependencies.add(artifactSet.getBuildDependencies());
     }
 
     public void resolveNow() {
@@ -53,7 +63,9 @@ public class DefaultResolvedArtifactResults implements ResolvedArtifactResults {
             artifacts = new LinkedHashSet<ResolvedArtifact>();
             resolvedArtifactsById = new LinkedHashMap<Long, Set<ResolvedArtifact>>();
             for (Map.Entry<Long, ArtifactSet> entry : artifactSets.entrySet()) {
-                Set<ResolvedArtifact> resolvedArtifacts = entry.getValue().getArtifacts();
+                ArtifactSet artifactSet = entry.getValue();
+
+                Set<ResolvedArtifact> resolvedArtifacts = artifactSet.getArtifacts();
                 artifacts.addAll(resolvedArtifacts);
                 resolvedArtifactsById.put(entry.getKey(), resolvedArtifacts);
             }

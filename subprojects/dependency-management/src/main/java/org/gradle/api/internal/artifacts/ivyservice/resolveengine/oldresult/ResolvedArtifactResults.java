@@ -17,6 +17,7 @@
 package org.gradle.api.internal.artifacts.ivyservice.resolveengine.oldresult;
 
 import org.gradle.api.artifacts.ResolvedArtifact;
+import org.gradle.api.tasks.TaskDependency;
 
 import java.util.Set;
 
@@ -26,4 +27,6 @@ public interface ResolvedArtifactResults {
     Set<ResolvedArtifact> getArtifacts();
 
     Set<ResolvedArtifact> getArtifacts(long id);
+
+    TaskDependency getBuildDependencies();
 }

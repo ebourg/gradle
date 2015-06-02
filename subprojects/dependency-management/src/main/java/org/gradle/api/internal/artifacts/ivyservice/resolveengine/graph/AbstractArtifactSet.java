@@ -23,11 +23,11 @@ import org.gradle.api.internal.artifacts.DefaultBuildableArtifact;
 import org.gradle.api.internal.artifacts.DefaultResolvedArtifact;
 import org.gradle.api.internal.artifacts.ivyservice.dynamicversions.DefaultResolvedModuleVersion;
 import org.gradle.api.internal.artifacts.ivyservice.resolveengine.ModuleResolutionFilter;
+import org.gradle.api.internal.tasks.DefaultTaskDependency;
+import org.gradle.api.tasks.TaskDependency;
 import org.gradle.internal.Factory;
-import org.gradle.internal.component.model.ComponentArtifactIdentifier;
-import org.gradle.internal.component.model.ComponentArtifactMetaData;
-import org.gradle.internal.component.model.IvyArtifactName;
-import org.gradle.internal.component.model.ModuleSource;
+import org.gradle.internal.component.local.model.LocalConfigurationMetaData;
+import org.gradle.internal.component.model.*;
 import org.gradle.internal.resolve.resolver.ArtifactResolver;
 import org.gradle.internal.resolve.result.DefaultBuildableArtifactResolveResult;
 
@@ -43,19 +43,28 @@ public abstract class AbstractArtifactSet implements ArtifactSet {
     private final ArtifactResolver artifactResolver;
     private final Map<ComponentArtifactIdentifier, ResolvedArtifact> allResolvedArtifacts;
     private final long id;
+    private final DefaultTaskDependency taskDependency = new DefaultTaskDependency();
 
-    public AbstractArtifactSet(ModuleVersionIdentifier ownerId, ModuleSource moduleSource, ModuleResolutionFilter selector, ArtifactResolver artifactResolver,
+    public AbstractArtifactSet(ConfigurationMetaData configurationMetaData, ModuleResolutionFilter selector, ArtifactResolver artifactResolver,
                                Map<ComponentArtifactIdentifier, ResolvedArtifact> allResolvedArtifacts, long id) {
-        this.moduleVersionIdentifier = ownerId;
-        this.moduleSource = moduleSource;
+        ComponentResolveMetaData component = configurationMetaData.getComponent();
+        this.moduleVersionIdentifier = component.getId();
+        this.moduleSource = component.getSource();
         this.selector = selector;
         this.artifactResolver = artifactResolver;
         this.allResolvedArtifacts = allResolvedArtifacts;
         this.id = id;
+        if (configurationMetaData instanceof LocalConfigurationMetaData) {
+            taskDependency.add(((LocalConfigurationMetaData) configurationMetaData).getDirectBuildDependencies());
+        }
     }
 
     public long getId() {
         return id;
+    }
+
+    public TaskDependency getBuildDependencies() {
+        return taskDependency;
     }
 
     public Set<ResolvedArtifact> getArtifacts() {

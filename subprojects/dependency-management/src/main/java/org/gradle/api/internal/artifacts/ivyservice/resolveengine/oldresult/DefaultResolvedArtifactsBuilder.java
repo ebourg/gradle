@@ -17,6 +17,7 @@
 package org.gradle.api.internal.artifacts.ivyservice.resolveengine.oldresult;
 
 import org.gradle.api.internal.artifacts.ivyservice.resolveengine.graph.ArtifactSet;
+import org.gradle.api.tasks.TaskDependency;
 
 public class DefaultResolvedArtifactsBuilder implements ResolvedArtifactsBuilder {
     private final DefaultResolvedArtifactResults artifactResults = new DefaultResolvedArtifactResults();
@@ -29,5 +30,10 @@ public class DefaultResolvedArtifactsBuilder implements ResolvedArtifactsBuilder
     public ResolvedArtifactResults resolve() {
         artifactResults.resolveNow();
         return artifactResults;
+    }
+
+    @Override
+    public TaskDependency getBuildDependencies() {
+        return artifactResults.getBuildDependencies();
     }
 }

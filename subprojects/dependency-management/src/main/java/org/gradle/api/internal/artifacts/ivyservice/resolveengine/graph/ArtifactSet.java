@@ -16,11 +16,12 @@
 
 package org.gradle.api.internal.artifacts.ivyservice.resolveengine.graph;
 
+import org.gradle.api.Buildable;
 import org.gradle.api.artifacts.ResolvedArtifact;
 
 import java.util.Set;
 
-public interface ArtifactSet {
+public interface ArtifactSet extends Buildable {
 
     long getId();
 

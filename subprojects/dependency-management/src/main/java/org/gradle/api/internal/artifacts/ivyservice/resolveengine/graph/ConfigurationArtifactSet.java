@@ -16,6 +16,7 @@
 
 package org.gradle.api.internal.artifacts.ivyservice.resolveengine.graph;
 
+import org.gradle.api.Buildable;
 import org.gradle.api.artifacts.ResolvedArtifact;
 import org.gradle.api.internal.artifacts.ResolvedConfigurationIdentifier;
 import org.gradle.api.internal.artifacts.ivyservice.resolveengine.ModuleResolutionFilter;
@@ -30,14 +31,14 @@ import java.util.Set;
 /**
  * An ArtifactSet that resolves the artifacts for a configuration.
  */
-class ConfigurationArtifactSet extends AbstractArtifactSet {
+class ConfigurationArtifactSet extends AbstractArtifactSet implements Buildable {
     private final Set<ComponentArtifactMetaData> artifacts;
 
-    public ConfigurationArtifactSet(ComponentResolveMetaData component, ResolvedConfigurationIdentifier configurationId, ModuleResolutionFilter selector,
+    public ConfigurationArtifactSet(ConfigurationMetaData configuration, ResolvedConfigurationIdentifier configurationId, ModuleResolutionFilter selector,
                                     ArtifactResolver artifactResolver, Map<ComponentArtifactIdentifier, ResolvedArtifact> allResolvedArtifacts,
                                     long id) {
-        super(component.getId(), component.getSource(), selector, artifactResolver, allResolvedArtifacts, id);
-        this.artifacts = doResolve(component, configurationId);
+        super(configuration, selector, artifactResolver, allResolvedArtifacts, id);
+        this.artifacts = doResolve(configuration.getComponent(), configurationId);
     }
 
     private Set<ComponentArtifactMetaData> doResolve(ComponentResolveMetaData component, ResolvedConfigurationIdentifier configurationId) {
