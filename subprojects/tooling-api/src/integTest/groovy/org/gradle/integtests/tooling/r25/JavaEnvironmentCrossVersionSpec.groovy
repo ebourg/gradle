@@ -49,7 +49,7 @@ assert System.getProperty('some-prop') == 'some-value'
         }
 
         then: "complete jvm args include the max memory from gradle.properties"
-        env.java.allJvmArguments.contains('-Xmx16m')
+        env.java.effectiveJvmArguments.contains('-Xmx16m')
 
         and: "requested jvm args are empty"
         env.java.requestedJvmArguments == []
@@ -84,7 +84,7 @@ assert System.getProperty('some-prop') == 'some-value'
         java.requestedJvmArguments.size() < java.jvmArguments.size()
 
         and: "all JVM arguments are the same as effective JVM arguments"
-        java.allJvmArguments.size() == java.jvmArguments.size()
+        java.effectiveJvmArguments.size() == java.jvmArguments.size()
     }
 
 
@@ -114,7 +114,7 @@ assert System.getProperty('some-prop') == 'some-value'
 
         and: "JVM arguments are different from user JVM arguments"
         java.jvmArguments.size() > 0
-        java.allJvmArguments.size() == java.jvmArguments.size() + 1
+        java.effectiveJvmArguments.size() == java.jvmArguments.size() + 1
     }
 
     @ToolingApiVersion(">=2.5")
@@ -145,7 +145,7 @@ assert System.getProperty('some-prop') == 'some-value'
         java.requestedJvmArguments.size() < java.jvmArguments.size()
 
         and: "all JVM arguments are the same as effective JVM arguments"
-        java.allJvmArguments.size() == java.jvmArguments.size()
+        java.effectiveJvmArguments.size() == java.jvmArguments.size()
     }
 
 

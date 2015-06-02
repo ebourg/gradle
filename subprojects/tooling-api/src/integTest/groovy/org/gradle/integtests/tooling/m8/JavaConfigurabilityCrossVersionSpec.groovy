@@ -64,9 +64,9 @@ class JavaConfigurabilityCrossVersionSpec extends ToolingApiSpecification {
         env.java.jvmArguments.size() > env.java.requestedJvmArguments.size()
         !env.java.jvmArguments.contains('-Dfoo=bar')
 
-        and: "all JVM arguments contains user provided system properties"
-        env.java.allJvmArguments.size() > env.java.jvmArguments.size()
-        env.java.allJvmArguments.contains('-Dfoo=bar')
+        and: "effective JVM arguments contains user provided system properties"
+        env.java.effectiveJvmArguments.size() > env.java.jvmArguments.size()
+        env.java.effectiveJvmArguments.contains('-Dfoo=bar')
     }
 
     def "uses sensible java defaults if nulls configured"() {

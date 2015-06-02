@@ -86,7 +86,7 @@ public class DefaultBuildEnvironment implements InternalBuildEnvironment, Serial
             }
 
             @Override
-            public List<String> getAllJvmArguments() {
+            public List<String> getEffectiveJvmArguments() {
                 return allJvmArguments;
             }
 

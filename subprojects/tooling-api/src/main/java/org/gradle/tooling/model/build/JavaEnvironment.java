@@ -66,7 +66,7 @@ public interface JavaEnvironment {
      * @throws UnsupportedMethodException For Gradle versions older than 2.5, where this method is not supported.
      */
     @Incubating
-    List<String> getAllJvmArguments() throws UnsupportedMethodException;
+    List<String> getEffectiveJvmArguments() throws UnsupportedMethodException;
 
     /**
      * The effective system properties used to start the Java process that handles Gradle operations (for example running tasks or acquiring model information), including the default system
